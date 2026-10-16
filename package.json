@@ -1,0 +1,12 @@
+{
+  "name": "council-services-drupal",
+  "private": true,
+  "description": "Accessibility checks for the Demo City Council Drupal site.",
+  "scripts": {
+    "a11y": "node tests/accessibility/a11y-check.js"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2",
+    "playwright": "1.48.2"
+  }
+}
