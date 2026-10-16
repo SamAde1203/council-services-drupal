@@ -111,6 +111,16 @@ jobs:
           BASE_URL: http://127.0.0.1:8888
         run: npm run a11y
 
+      - name: Report Drupal errors as annotations
+        if: failure()
+        working-directory: web
+        run: |
+          ../vendor/bin/drush watchdog:show --count=10 --format=json 2>/dev/null \
+            | python3 -c "import json,sys
+          for row in (json.load(sys.stdin) or {}).values():
+              msg = str(row.get('message', ''))[:1500].replace('%', '%25').replace(chr(10), '%0A')
+              print('::error title=Drupal log (' + str(row.get('severity')) + ')::' + msg)" || true
+
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v5
