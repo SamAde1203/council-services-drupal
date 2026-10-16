@@ -6,7 +6,7 @@ webserver_type: nginx-fpm
 xdebug_enabled: false
 database:
   type: mariadb
-  version: "10.11"
+  version: "11.8"
 composer_version: "2"
 web_environment:
   # Used by PHPUnit kernel and functional tests inside the container.
