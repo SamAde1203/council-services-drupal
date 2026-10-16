@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+## Description: Install the Demo City Council site with the Bin Day Finder module and Civic theme.
+## Usage: setup-demo
+## Example: "ddev setup-demo"
+
+set -euo pipefail
+
+bash scripts/setup-demo.sh
+
+echo ""
+echo "Site: ${DDEV_PRIMARY_URL}"
+echo "One-time admin login link:"
+drush user:login --uri="${DDEV_PRIMARY_URL}"
