@@ -90,7 +90,16 @@ jobs:
         env:
           DRUSH: ../vendor/bin/drush
           DB_URL: sqlite://localhost/sites/default/files/.ht.sqlite
-        run: bash ../scripts/setup-demo.sh
+        run: |
+          set -o pipefail
+          bash ../scripts/setup-demo.sh 2>&1 | tee /tmp/setup.log
+
+      - name: Report setup output as an annotation
+        if: failure()
+        run: |
+          if [ -f /tmp/setup.log ]; then
+            python3 -c "print('::error title=Setup output (last lines)::' + open('/tmp/setup.log', errors='replace').read()[-1800:].replace('%', '%25').replace(chr(10), '%0A'))"
+          fi
 
       - name: Start PHP web server
         working-directory: web
