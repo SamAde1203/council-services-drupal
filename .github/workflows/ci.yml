@@ -54,6 +54,18 @@ jobs:
                       text = ((node.get('message') or '') + ' ' + (node.text or '')).strip()
                       text = text.replace('%', '%25').replace('\r', '').replace('\n', '%0A')[:1500]
                       print(f"::error title={tag}: {case.get('class', '')}::{case.get('name')}: {text}")
+          import glob, re, html
+          pages = sorted(glob.glob('web/sites/simpletest/browser_output/*.html'), key=os.path.getmtime)
+          for page in pages:
+              body = open(page, errors='replace').read()
+              if 'unexpected error' in body or 'Error' in body:
+                  text = html.unescape(re.sub(r'<[^>]+>', ' ', re.sub(r'(?s)<(script|style|head).*?</\1>', '', body)))
+                  text = re.sub(r'\s+', ' ', text).strip()[:1800].replace('%', '%25')
+                  print(f"::error title=First error page ({os.path.basename(page)})::{text}")
+                  break
+          if os.path.exists('/tmp/php-server.log'):
+              tail = open('/tmp/php-server.log', errors='replace').read()[-1500:].replace('%', '%25').replace('\n', '%0A')
+              print(f"::error title=PHP server log tail::{tail}")
           PY
 
   accessibility:
