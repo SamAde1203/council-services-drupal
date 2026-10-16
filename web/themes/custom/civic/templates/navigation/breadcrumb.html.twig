@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Civic theme override for a breadcrumb trail.
+ *
+ * @see stable9/templates/navigation/breadcrumb.html.twig
+ */
+#}
+{% if breadcrumb %}
+  <nav class="civic-breadcrumb" aria-label="{{ 'Breadcrumb'|t }}">
+    <ol class="civic-breadcrumb__list">
+      {% for item in breadcrumb %}
+        <li class="civic-breadcrumb__item">
+          {% if item.url %}
+            <a href="{{ item.url }}">{{ item.text }}</a>
+          {% else %}
+            {{ item.text }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}

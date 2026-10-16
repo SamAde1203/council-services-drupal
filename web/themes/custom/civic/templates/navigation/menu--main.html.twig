@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Civic theme override for the main menu.
+ *
+ * Same as Stable 9, plus link attributes so civic_preprocess_menu__main()
+ * can set aria-current on the current page.
+ *
+ * @see civic_preprocess_menu__main()
+ */
+#}
+{% import _self as menus %}
+{{ menus.menu_links(items, attributes, 0) }}
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes.addClass('civic-menu') }}>
+    {% else %}
+      <ul class="civic-menu__submenu">
+    {% endif %}
+    {% for item in items %}
+      <li{{ item.attributes.addClass('civic-menu__item') }}>
+        {{ link(item.title, item.url, item.link_attributes|default({})) }}
+        {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

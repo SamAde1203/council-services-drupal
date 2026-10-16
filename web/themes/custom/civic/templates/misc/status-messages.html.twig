@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Civic theme override for status messages.
+ *
+ * Stable 9 wraps every message in role="contentinfo", which clashes with the
+ * page footer landmark (flagged by axe-core). Here errors use role="alert" so
+ * they are announced straight away, and other messages use role="status".
+ * Errors get a visible heading, like the GOV.UK error summary.
+ *
+ * @see stable9/templates/misc/status-messages.html.twig
+ */
+#}
+<div data-drupal-messages>
+{% for type, messages in message_list %}
+  {%
+    set classes = [
+      'messages',
+      'messages--' ~ type,
+    ]
+  %}
+  <div{{ attributes.addClass(classes)|without('role', 'aria-label') }} role="{{ type == 'error' ? 'alert' : 'status' }}" aria-labelledby="messages-{{ type }}-title">
+    <h2 id="messages-{{ type }}-title" class="{{ type == 'error' ? 'messages__title' : 'visually-hidden' }}">
+      {{ type == 'error' ? 'There is a problem'|t : status_headings[type] }}
+    </h2>
+    {% if messages|length > 1 %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>{{ messages|first }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>

@@ -1,0 +1,91 @@
+/**
+ * @file
+ * Page layout: header, navigation, main content, sidebar and footer.
+ */
+
+.civic-container {
+  width: min(100% - 2rem, 62.5rem);
+  margin-inline: auto;
+}
+
+/* Header */
+.civic-header {
+  background: var(--civic-primary);
+  color: var(--civic-white);
+  border-block-end: 8px solid var(--civic-primary-dark);
+}
+
+.civic-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--civic-space-3);
+  padding-block: var(--civic-space-3);
+}
+
+.civic-header a,
+.civic-header a:visited {
+  color: var(--civic-white);
+}
+
+.civic-header a:focus-visible {
+  color: var(--civic-ink);
+}
+
+/* Navigation */
+.civic-nav {
+  background: var(--civic-surface);
+  border-block-end: 1px solid var(--civic-border);
+}
+
+.civic-nav h2 {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+
+/* Main */
+.civic-main {
+  display: grid;
+  gap: var(--civic-space-5);
+  padding-block: var(--civic-space-5) var(--civic-space-6);
+}
+
+.civic-main:focus {
+  outline: none;
+}
+
+@media (min-width: 48rem) {
+  .civic-main--with-sidebar {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+.civic-main__sidebar h2 {
+  font-size: 1.5rem;
+}
+
+.civic-main__sidebar {
+  padding: var(--civic-space-4);
+  border-block-start: 4px solid var(--civic-primary);
+  background: var(--civic-surface);
+  align-self: start;
+}
+
+/* Footer */
+.civic-footer {
+  padding-block: var(--civic-space-5);
+  border-block-start: 1px solid var(--civic-border);
+  background: var(--civic-surface);
+  color: var(--civic-muted);
+  font-size: 1rem;
+}
+
+.civic-footer a,
+.civic-footer a:visited {
+  color: var(--civic-ink);
+}

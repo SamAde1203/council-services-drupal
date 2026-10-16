@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Preprocess functions for the Civic theme.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_preprocess_HOOK() for menu--main.html.twig.
+ *
+ * Adds aria-current to the main menu so screen reader users hear which page
+ * or section they are in, not just sighted users who can see the styling.
+ */
+function civic_preprocess_menu__main(array &$variables): void {
+  _civic_mark_current_items($variables['items']);
+}
+
+/**
+ * Sets aria-current on menu items in the active trail.
+ *
+ * The deepest active item is the current page ("page"); its ancestors are
+ * marked as part of the current location ("true").
+ *
+ * @param array $items
+ *   Menu items, passed by reference.
+ */
+function _civic_mark_current_items(array &$items): void {
+  foreach ($items as &$item) {
+    if (empty($item['in_active_trail'])) {
+      continue;
+    }
+    $child_is_active = FALSE;
+    if (!empty($item['below'])) {
+      _civic_mark_current_items($item['below']);
+      foreach ($item['below'] as $child) {
+        $child_is_active = $child_is_active || !empty($child['in_active_trail']);
+      }
+    }
+    $item['link_attributes'] = ['aria-current' => $child_is_active ? 'true' : 'page'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for form-element.html.twig.
+ *
+ * Shows hint text before the field, as recommended by the GOV.UK Design
+ * System, so it is read before the user starts typing.
+ */
+function civic_preprocess_form_element(array &$variables): void {
+  if (($variables['description_display'] ?? 'after') === 'after') {
+    $variables['description_display'] = 'before';
+  }
+}

@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Civic theme override for a form element.
+ *
+ * Order follows the GOV.UK Design System: label, hint, error message, then
+ * the field. Screen readers hear the hint and the error before the input.
+ *
+ * @see stable9/templates/form/form-element.html.twig
+ * @see civic_preprocess_form_element()
+ */
+#}
+{%
+  set classes = [
+    'js-form-item',
+    'form-item',
+    'form-type-' ~ type|clean_class,
+    'js-form-type-' ~ type|clean_class,
+    'form-item-' ~ name|clean_class,
+    'js-form-item-' ~ name|clean_class,
+    title_display not in ['after', 'before'] ? 'form-no-label',
+    disabled == 'disabled' ? 'form-disabled',
+    errors ? 'form-item--error',
+  ]
+%}
+{%
+  set description_classes = [
+    'description',
+    'form-item__hint',
+    description_display == 'invisible' ? 'visually-hidden',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {% if label_display in ['before', 'invisible'] %}
+    {{ label }}
+  {% endif %}
+  {% if description_display in ['before', 'invisible'] and description.content %}
+    <div{{ description.attributes.addClass(description_classes) }}>
+      {{ description.content }}
+    </div>
+  {% endif %}
+  {% if errors %}
+    <p class="form-item--error-message">
+      <span class="visually-hidden">{{ 'Error:'|t }}</span> {{ errors }}
+    </p>
+  {% endif %}
+  {% if prefix is not empty %}
+    <span class="field-prefix">{{ prefix }}</span>
+  {% endif %}
+  {{ children }}
+  {% if suffix is not empty %}
+    <span class="field-suffix">{{ suffix }}</span>
+  {% endif %}
+  {% if label_display == 'after' %}
+    {{ label }}
+  {% endif %}
+  {% if description_display == 'after' and description.content %}
+    <div{{ description.attributes.addClass(description_classes) }}>
+      {{ description.content }}
+    </div>
+  {% endif %}
+</div>

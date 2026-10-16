@@ -1,0 +1,57 @@
+{#
+/**
+ * @file
+ * Civic theme page layout.
+ *
+ * Uses landmark elements (header, nav, main, aside, footer) so screen reader
+ * users can jump between areas of the page.
+ *
+ * @see stable9/templates/layout/page.html.twig
+ */
+#}
+<div class="civic-page">
+  <header class="civic-header" role="banner">
+    <div class="civic-container civic-header__inner">
+      {{ page.header }}
+      {{ page.secondary_menu }}
+    </div>
+  </header>
+
+  {% if page.primary_menu %}
+    <div class="civic-nav">
+      <div class="civic-container">
+        {{ page.primary_menu }}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="civic-container">
+    <section class="civic-banner" aria-label="{{ 'Site notice'|t }}">
+      <strong class="civic-banner__tag">{{ 'Demo'|t }}</strong>
+      <span>{{ 'This is a demonstration site for a portfolio project. It is not a real council service.'|t }}</span>
+    </section>
+
+    {{ page.breadcrumb }}
+
+    <main id="main-content" class="civic-main{{ page.sidebar ? ' civic-main--with-sidebar' }}" role="main" tabindex="-1">
+      <div class="civic-main__content">
+        {{ page.highlighted }}
+        {{ page.content_above }}
+        {{ page.content }}
+      </div>
+
+      {% if page.sidebar %}
+        <aside class="civic-main__sidebar" role="complementary">
+          {{ page.sidebar }}
+        </aside>
+      {% endif %}
+    </main>
+  </div>
+
+  <footer class="civic-footer" role="contentinfo">
+    <div class="civic-container">
+      {{ page.footer_top }}
+      {{ page.footer_bottom }}
+    </div>
+  </footer>
+</div>

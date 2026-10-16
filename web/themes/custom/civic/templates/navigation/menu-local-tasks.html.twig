@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Civic theme override for local tasks (for example View / Edit tabs).
+ *
+ * @see stable9/templates/navigation/menu-local-tasks.html.twig
+ */
+#}
+{% if primary %}
+  <nav class="civic-tabs" aria-label="{{ 'Primary tabs'|t }}">
+    <ul class="tabs">{{ primary }}</ul>
+  </nav>
+{% endif %}
+{% if secondary %}
+  <nav class="civic-tabs civic-tabs--secondary" aria-label="{{ 'Secondary tabs'|t }}">
+    <ul class="tabs">{{ secondary }}</ul>
+  </nav>
+{% endif %}

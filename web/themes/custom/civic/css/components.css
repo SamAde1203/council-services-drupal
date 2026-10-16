@@ -1,0 +1,271 @@
+/**
+ * @file
+ * Components: skip link, branding, menu, banner, breadcrumb, messages,
+ * tabs and forms.
+ */
+
+/* Skip link: hidden until focused, then the first thing on screen. */
+.civic-skip-link {
+  position: absolute;
+  inset-block-start: -10rem;
+  inset-inline-start: var(--civic-space-3);
+  z-index: 100;
+  padding: var(--civic-space-2) var(--civic-space-3);
+  background: var(--civic-focus);
+  color: var(--civic-ink);
+  font-weight: 700;
+}
+
+.civic-skip-link:focus {
+  inset-block-start: var(--civic-space-2);
+}
+
+/* Site branding block. */
+.civic-header .site-logo img {
+  display: block;
+  width: 3rem;
+}
+
+.civic-header [class*="site-branding"],
+.civic-header #block-civic-site-branding {
+  display: flex;
+  align-items: center;
+  gap: var(--civic-space-3);
+}
+
+.civic-header .site-name,
+.civic-header .site-name a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.civic-header .site-slogan {
+  font-size: 1rem;
+}
+
+.civic-header ul {
+  display: flex;
+  gap: var(--civic-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Main menu. */
+.civic-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--civic-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.civic-menu__item a {
+  display: inline-block;
+  padding-block: var(--civic-space-3);
+  border-block-end: 4px solid transparent;
+  color: var(--civic-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.civic-menu__item a:hover {
+  border-block-end-color: var(--civic-border);
+}
+
+.civic-menu__item a[aria-current] {
+  border-block-end-color: var(--civic-primary);
+}
+
+.civic-menu__submenu {
+  display: none;
+}
+
+/* Demonstration banner. */
+.civic-banner {
+  display: flex;
+  gap: var(--civic-space-2);
+  align-items: baseline;
+  padding-block: var(--civic-space-2);
+  border-block-end: 1px solid var(--civic-border);
+  font-size: 1rem;
+}
+
+.civic-banner__tag {
+  padding: 0.125rem var(--civic-space-2);
+  background: var(--civic-primary);
+  color: var(--civic-white);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Breadcrumb. */
+.civic-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--civic-space-2);
+  margin: var(--civic-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+
+.civic-breadcrumb__item + .civic-breadcrumb__item::before {
+  content: "›";
+  margin-inline-end: var(--civic-space-2);
+  color: var(--civic-muted);
+}
+
+/* Status messages. The error summary from Inline Form Errors links to each
+   field with a problem. */
+.messages {
+  margin-block-end: var(--civic-space-4);
+  padding: var(--civic-space-3) var(--civic-space-4);
+  border: 4px solid var(--civic-primary);
+}
+
+.messages--error {
+  border-color: var(--civic-error);
+}
+
+.messages--status {
+  border-color: var(--civic-success);
+}
+
+.messages__title {
+  font-size: 1.5rem;
+}
+
+.messages p {
+  margin: 0;
+}
+
+.messages ul {
+  margin: 0;
+  padding-inline-start: var(--civic-space-4);
+}
+
+.messages--error a {
+  color: var(--civic-error);
+  font-weight: 700;
+}
+
+/* Local tasks (View / Edit tabs for editors). */
+ul.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--civic-space-2);
+  margin-block: 0 var(--civic-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+ul.tabs a {
+  display: inline-block;
+  padding: var(--civic-space-2) var(--civic-space-3);
+  border: 1px solid var(--civic-border);
+  text-decoration: none;
+}
+
+ul.tabs a.is-active {
+  border-color: var(--civic-ink);
+  background: var(--civic-surface);
+  color: var(--civic-ink);
+}
+
+/* Forms. */
+.form-item {
+  margin-block-end: var(--civic-space-4);
+}
+
+.form-item label {
+  display: block;
+  margin-block-end: var(--civic-space-1);
+  font-weight: 700;
+}
+
+.form-item__hint,
+.form-item .description {
+  margin-block-end: var(--civic-space-2);
+  color: var(--civic-muted);
+}
+
+.form-text,
+.form-email,
+.form-search,
+.form-tel,
+.form-url,
+.form-number,
+.form-textarea,
+.form-select,
+input[type="password"] {
+  min-height: 2.5rem;
+  padding: var(--civic-space-1) var(--civic-space-2);
+  border: 2px solid var(--civic-ink);
+  border-radius: 0;
+  font: inherit;
+}
+
+.form-text,
+.form-email,
+input[type="password"] {
+  width: 100%;
+  max-width: 30rem;
+}
+
+.form-item--error {
+  padding-inline-start: var(--civic-space-3);
+  border-inline-start: 5px solid var(--civic-error);
+}
+
+.form-item--error input,
+input.error {
+  border-color: var(--civic-error);
+}
+
+.form-item--error-message {
+  margin-block: 0 var(--civic-space-2);
+  color: var(--civic-error);
+  font-weight: 700;
+}
+
+.form-required::after {
+  content: none;
+}
+
+/* Buttons. */
+.button,
+.form-submit {
+  display: inline-block;
+  min-height: 2.75rem;
+  padding: var(--civic-space-2) var(--civic-space-4);
+  border: 0;
+  border-radius: 0;
+  box-shadow: 0 2px 0 var(--civic-primary-dark);
+  background: var(--civic-primary);
+  color: var(--civic-white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button:hover,
+.form-submit:hover {
+  background: var(--civic-primary-dark);
+}
+
+.button:focus-visible,
+.form-submit:focus-visible {
+  outline: 3px solid transparent;
+  background: var(--civic-focus);
+  box-shadow: 0 2px 0 var(--civic-ink);
+  color: var(--civic-ink);
+}
+
+/* Bin Day Finder: match the theme. */
+.bin-day-form__postcode {
+  max-width: 10rem;
+}

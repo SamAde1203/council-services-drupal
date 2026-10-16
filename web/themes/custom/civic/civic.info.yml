@@ -1,0 +1,20 @@
+name: Civic
+type: theme
+description: 'An accessible, performance-focused theme for council websites. Built on Stable 9 with no web fonts, no JavaScript framework and WCAG 2.2 AA colour contrast throughout.'
+package: 'Council services'
+core_version_requirement: ^11.1
+base theme: stable9
+logo: logo.svg
+libraries:
+  - civic/global
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  content_above: 'Content above'
+  content: Content
+  sidebar: Sidebar
+  footer_top: 'Footer top'
+  footer_bottom: 'Footer bottom'

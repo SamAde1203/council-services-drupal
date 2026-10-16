@@ -1,0 +1,135 @@
+/**
+ * @file
+ * Design tokens, typography and global focus styles.
+ *
+ * Colour pairs used for text all meet WCAG 2.2 AA (4.5:1) or better against
+ * their background. Ratios are noted next to each token and were measured
+ * with the WCAG 2.x relative luminance formula.
+ */
+
+:root {
+  --civic-ink: #0b0c0c;            /* 19.6:1 on white */
+  --civic-muted: #505a5f;          /* 7.1:1 on white */
+  --civic-primary: #0b4f6c;        /* 8.9:1 with white text */
+  --civic-primary-dark: #073b51;
+  --civic-link: #14548a;           /* 7.9:1 on white */
+  --civic-link-visited: #4c2c92;   /* 10.1:1 on white */
+  --civic-error: #b3261e;          /* 6.5:1 on white */
+  --civic-success: #00703c;        /* 6.2:1 with white text */
+  --civic-focus: #ffdd00;
+  --civic-border: #b1b4b6;
+  --civic-surface: #f3f5f6;
+  --civic-white: #fff;
+
+  --civic-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --civic-space-1: 0.25rem;
+  --civic-space-2: 0.5rem;
+  --civic-space-3: 1rem;
+  --civic-space-4: 1.5rem;
+  --civic-space-5: 2rem;
+  --civic-space-6: 3rem;
+  --civic-measure: 70ch;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--civic-white);
+  color: var(--civic-ink);
+  font-family: var(--civic-font);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin-block: 0 var(--civic-space-3);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p,
+ul,
+ol {
+  max-width: var(--civic-measure);
+  margin-block: 0 var(--civic-space-3);
+}
+
+a {
+  color: var(--civic-link);
+  text-decoration-thickness: max(1px, 0.0625rem);
+  text-underline-offset: 0.15em;
+}
+
+a:visited {
+  color: var(--civic-link-visited);
+}
+
+a:hover {
+  text-decoration-thickness: max(3px, 0.1875rem);
+}
+
+/*
+ * One focus style everywhere: a yellow background with a thick dark
+ * underline. Visible on any background colour, and never relies on colour
+ * alone (WCAG 2.4.7 and 2.4.11).
+ */
+a:focus-visible {
+  outline: 3px solid transparent;
+  background-color: var(--civic-focus);
+  box-shadow: 0 -2px var(--civic-focus), 0 4px var(--civic-ink);
+  color: var(--civic-ink);
+  text-decoration: none;
+}
+
+:where(button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--civic-focus);
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 2px var(--civic-ink);
+}
+
+/* Elements focused by script (skip link target, results heading) are not
+   interactive, so they get no focus ring. */
+[tabindex="-1"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

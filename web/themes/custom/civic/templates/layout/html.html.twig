@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Civic theme override for the basic structure of a single Drupal page.
+ *
+ * The skip link is the first focusable element on every page.
+ *
+ * @see stable9/templates/layout/html.html.twig
+ */
+#}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+    <meta name="theme-color" content="#0b4f6c">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+  </head>
+  <body{{ attributes.addClass('civic') }}>
+    <a href="#main-content" class="civic-skip-link">
+      {{ 'Skip to main content'|t }}
+    </a>
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+    <js-bottom-placeholder token="{{ placeholder_token }}">
+  </body>
+</html>
