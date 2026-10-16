@@ -23,6 +23,10 @@ let failures = 0;
 function fail(message) {
   failures += 1;
   console.error(`  FAIL ${message}`);
+  if (process.env.GITHUB_ACTIONS) {
+    // Shows the failure as an annotation on the GitHub Actions run.
+    console.log(`::error title=Accessibility check::${message.replace(/%/g, '%25').replace(/\n/g, '%0A')}`);
+  }
 }
 
 async function audit(page, name) {
@@ -92,5 +96,8 @@ async function search(page, postcode) {
   process.exit(failures === 0 ? 0 : 1);
 })().catch((error) => {
   console.error(error);
+  if (process.env.GITHUB_ACTIONS) {
+    console.log(`::error title=Accessibility script crashed::${String(error.stack || error).slice(0, 1500).replace(/%/g, '%25').replace(/\n/g, '%0A')}`);
+  }
   process.exit(1);
 });
