@@ -55,7 +55,8 @@
             },
             "file-mapping": {
                 "[project-root]/.gitattributes": false
-            }
+            },
+            "gitignore": false
         },
         "installer-paths": {
             "web/core": [
