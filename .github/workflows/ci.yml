@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Coding standards and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --no-check-publish
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Drupal coding standards (phpcs)
+        run: vendor/bin/phpcs
+
+      - name: Start PHP web server for functional tests
+        run: php -S 127.0.0.1:8080 -t web web/.ht.router.php > /tmp/php-server.log 2>&1 &
+
+      - name: Unit, kernel and functional tests (PHPUnit)
+        env:
+          SIMPLETEST_DB: sqlite://localhost//tmp/test.sqlite
+          SIMPLETEST_BASE_URL: http://127.0.0.1:8080
+          BROWSERTEST_OUTPUT_DIRECTORY: /tmp
+        run: vendor/bin/phpunit
+
+  accessibility:
+    name: Accessibility (axe-core, WCAG 2.2 AA)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Install the demo site
+        working-directory: web
+        env:
+          DRUSH: ../vendor/bin/drush
+          DB_URL: sqlite://localhost/sites/default/files/.ht.sqlite
+        run: bash ../scripts/setup-demo.sh
+
+      - name: Start PHP web server
+        run: php -S 127.0.0.1:8888 -t web web/.ht.router.php > /tmp/php-server.log 2>&1 &
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install Playwright and axe-core
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run accessibility checks
+        env:
+          BASE_URL: http://127.0.0.1:8888
+        run: npm run a11y
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-screenshots
+          path: tests/accessibility/screenshots/
