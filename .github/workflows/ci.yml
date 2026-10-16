@@ -31,7 +31,8 @@ jobs:
         run: vendor/bin/phpcs
 
       - name: Start PHP web server for functional tests
-        run: php -S 127.0.0.1:8080 -t web web/.ht.router.php > /tmp/php-server.log 2>&1 &
+        working-directory: web
+        run: php -S 127.0.0.1:8080 .ht.router.php > /tmp/php-server.log 2>&1 &
 
       - name: Unit, kernel and functional tests (PHPUnit)
         env:
@@ -92,7 +93,8 @@ jobs:
         run: bash ../scripts/setup-demo.sh
 
       - name: Start PHP web server
-        run: php -S 127.0.0.1:8888 -t web web/.ht.router.php > /tmp/php-server.log 2>&1 &
+        working-directory: web
+        run: php -S 127.0.0.1:8888 .ht.router.php > /tmp/php-server.log 2>&1 &
 
       - uses: actions/setup-node@v5
         with:
