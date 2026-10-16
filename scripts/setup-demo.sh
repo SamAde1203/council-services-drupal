@@ -34,7 +34,14 @@ $DRUSH config:set system.theme default civic -y
 if ! $DRUSH php:eval 'echo \Drupal\node\Entity\NodeType::load("page") ? "yes" : "no";' | grep -q yes; then
   echo "Adding the Basic page content type from the core recipe..."
   DRUPAL_ROOT_PATH=$($DRUSH php:eval 'echo DRUPAL_ROOT;')
-  (cd "${DRUPAL_ROOT_PATH}" && php core/scripts/drupal recipe core/recipes/page_content_type)
+  if ! $DRUSH recipe "${DRUPAL_ROOT_PATH}/core/recipes/page_content_type" -y; then
+    echo "Drush recipe command unavailable; creating the content type directly..."
+    $DRUSH php:eval '
+      $type = \Drupal\node\Entity\NodeType::create(["type" => "page", "name" => "Basic page"]);
+      $type->save();
+      node_add_body_field($type);
+    '
+  fi
   $DRUSH cache:rebuild
 fi
 
