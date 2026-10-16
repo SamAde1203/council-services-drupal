@@ -38,7 +38,23 @@ jobs:
           SIMPLETEST_DB: sqlite://localhost//tmp/test.sqlite
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           BROWSERTEST_OUTPUT_DIRECTORY: /tmp
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --log-junit /tmp/junit.xml
+
+      - name: Report test failures as annotations
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET, os
+          if not os.path.exists('/tmp/junit.xml'):
+              print('::error title=PHPUnit::No JUnit report; PHPUnit did not start. See the step log.')
+              raise SystemExit
+          for case in ET.parse('/tmp/junit.xml').iter('testcase'):
+              for tag in ('failure', 'error', 'warning'):
+                  for node in case.findall(tag):
+                      text = ((node.get('message') or '') + ' ' + (node.text or '')).strip()
+                      text = text.replace('%', '%25').replace('\r', '').replace('\n', '%0A')[:1500]
+                      print(f"::error title={tag}: {case.get('class', '')}::{case.get('name')}: {text}")
+          PY
 
   accessibility:
     name: Accessibility (axe-core, WCAG 2.2 AA)
